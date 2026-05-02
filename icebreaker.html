@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Icebreaker Bingo</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f5f5f5;
+    }
+
+    h1 {
+        margin-top: 20px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    .cell {
+        background: white;
+        border: 2px solid #ccc;
+        padding: 20px;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: 0.3s;
+        font-size: 14px;
+    }
+
+    .cell.checked {
+        background: purple;
+        color: white;
+        border-color: purple;
+    }
+</style>
+</head>
+<body>
+
+<h1>🎯 Icebreaker Bingo</h1>
+<p>Find someone who matches each box and tap to mark it!</p>
+
+<div class="grid" id="bingoGrid"></div>
+
+<script>
+const questions = [
+    "Find someone who works in fintech",
+    "Find someone who loves AI",
+    "Find someone who codes daily",
+    "Find someone who attended more than 3 panels",
+    "Find someone who traveled abroad this year",
+
+    "Find someone who runs a business",
+    "Find someone who loves public speaking",
+    "Find someone who uses Notion",
+    "Find someone who is into startups",
+    "Find someone who works remotely",
+
+    "Find someone who studied abroad",
+    "Find someone who is a content creator",
+    "Find someone who listens to podcasts",
+    "Find someone who enjoys networking",
+    "Find someone who is into cybersecurity",
+
+    "Find someone who is building an app",
+    "Find someone who uses LinkedIn actively",
+    "Find someone who loves coffee",
+    "Find someone who attends tech events",
+    "Find someone who wants to work in Silicon Valley"
+];
+
+const grid = document.getElementById("bingoGrid");
+
+questions.forEach(q => {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.innerText = q;
+
+    cell.addEventListener("click", () => {
+        cell.classList.toggle("checked");
+        checkBingo();
+    });
+
+    grid.appendChild(cell);
+});
+
+function checkBingo() {
+    const cells = document.querySelectorAll(".cell");
+    const checked = Array.from(cells).map(c => c.classList.contains("checked"));
+
+    const winPatterns = [
+        [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19], // rows
+        [0,5,10,15],[1,6,11,16],[2,7,12,17],[3,8,13,18],[4,9,14,19] // cols
+    ];
+
+    for (let pattern of winPatterns) {
+        if (pattern.every(i => checked[i])) {
+            alert("🎉 Bingo!");
+            return;
+        }
+    }
+}
+</script>
+
+</body>
+</html>
