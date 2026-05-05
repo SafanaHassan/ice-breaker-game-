@@ -115,9 +115,9 @@ function checkBingo() {
 
     for (let pattern of winPatterns) {
         if (pattern.every(i => checked[i])) {
-            alert("🎉 Bingo!");
             hasWon = true;
             launchConfetti();
+            alert("🎉 Bingo!");
             return;
         }
     }
