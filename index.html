@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Icebreaker Bingo</title>
+
+<!-- Confetti library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -40,6 +44,7 @@
     }
 </style>
 </head>
+
 <body>
 
 <h1>🎯 Icebreaker Bingo</h1>
@@ -95,6 +100,23 @@ questions.forEach(q => {
     grid.appendChild(cell);
 });
 
+function launchConfetti() {
+    const duration = 2 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 6,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
 function checkBingo() {
     const cells = document.querySelectorAll(".cell");
     const checked = Array.from(cells).map(c => c.classList.contains("checked"));
@@ -104,18 +126,19 @@ function checkBingo() {
         [5,6,7,8,9],
         [10,11,12,13,14],
         [15,16,17,18,19],
-        [20,21,22,23,24], // rows
+        [20,21,22,23,24],
 
         [0,5,10,15,20],
         [1,6,11,16,21],
         [2,7,12,17,22],
         [3,8,13,18,23],
-        [4,9,14,19,24] // columns
+        [4,9,14,19,24]
     ];
 
     for (let pattern of winPatterns) {
         if (pattern.every(i => checked[i])) {
             alert("🎉 Bingo!");
+            launchConfetti(); // 👈 added here
             return;
         }
     }
